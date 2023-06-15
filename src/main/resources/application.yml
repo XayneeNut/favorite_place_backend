@@ -1,0 +1,17 @@
+quarkus:
+  log:
+    level: INFO
+  http:
+    cors:
+      ~: true
+    port: 8124
+  datasource:
+    db-kind: mysql
+    username: root
+    password: ""
+    jdbc:
+      url: jdbc:mysql://localhost:3306/favorite_places
+  hibernate-orm:
+    database:
+      generation:
+        ~: none
