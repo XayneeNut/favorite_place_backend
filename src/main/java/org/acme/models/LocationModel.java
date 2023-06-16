@@ -6,13 +6,13 @@ public record LocationModel(
     Long id,
     double longitude,
     double latitude,
-    String formattedAdrres
+    String formattedAddress
 ) {
     public LocationEntity mapLocation(){
         LocationEntity locationEntity = new LocationEntity();
         locationEntity.longitude = longitude;
         locationEntity.latitude = latitude;
-        locationEntity.formatedAddress = formattedAdrres;
+        locationEntity.formattedAddress = formattedAddress;
         return locationEntity;
     }
 }

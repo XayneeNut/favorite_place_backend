@@ -5,8 +5,10 @@ package org.acme.entity;
 import java.util.List;
 import java.util.Optional;
 
+import org.acme.core.util.ManipulateUtil;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import io.smallrye.common.constraint.NotNull;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,20 +21,17 @@ public class LocationEntity extends PanacheEntityBase{
     
     @Id
     @GeneratedValue(generator = "gusanta_id_gen")
-    @NotNull
     @Column(name = "location_id")
     public Long locationId;
 
-    @NotNull
     @Column(name = "longitude")
     public double longitude;
 
-    @NotNull
     @Column(name = "latitude")
     public double latitude;
 
     @Column(name = "formatedAddress")
-    public String formatedAddress;
+    public String formattedAddress;
 
     public static Optional<LocationEntity> findLocationEntityById(long id){
         return find("id = ? 1", id).firstResultOptional();
@@ -40,5 +39,12 @@ public class LocationEntity extends PanacheEntityBase{
 
     public static List<LocationEntity> findAllLocationEntities (){
         return LocationEntity.listAll();
+    }
+
+    public LocationEntity updateLocationEntity(LocationEntity locationEntity){
+        locationEntity.latitude = ManipulateUtil.changeItOrNot(latitude, locationEntity.latitude);
+        locationEntity.longitude = ManipulateUtil.changeItOrNot(longitude, locationEntity.longitude);
+        locationEntity.formattedAddress = ManipulateUtil.changeItOrNot(formattedAddress, locationEntity.formattedAddress);
+        return locationEntity;
     }
 }

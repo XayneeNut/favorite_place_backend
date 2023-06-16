@@ -22,6 +22,12 @@ public class LocationHandler {
         return LocationEntity.findAllLocationEntities().stream().collect(Collectors.toList());
     }
 
+    public LocationEntity updateLocationEntity(LocationEntity entity) {
+        var validatingId = getLocationEntityById(entity.locationId);
+        entity.updateLocationEntity(validatingId);
+        return validatingId;
+    }
+
     public LocationEntity createLocationEntity(LocationModel locationModel) {
         Objects.requireNonNull(locationModel);
         var location = locationModel.mapLocation();
@@ -30,12 +36,11 @@ public class LocationHandler {
     }
 
     public Response deleteLocationEntity(Long id) {
-        if(getLocationEntityById(id) != null){
+        if (getLocationEntityById(id) != null) {
             LocationEntity.deleteById(id);
             return MessageResponse.deleteSucces(id);
-        }else{
+        } else {
             return MessageResponse.idNotFound(id);
         }
     }
-
 }
