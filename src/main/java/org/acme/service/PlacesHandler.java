@@ -30,7 +30,8 @@ public class PlacesHandler {
 
     private PlacesEntity checkingWithCreate(PlacesModel placesModel, LocationEntity locationEntity) {
         var placesMap = placesModel.mapPlacesModel();
-        placesMap.locationEntityId = locationEntity;
+        placesMap.locationId = locationEntity;
+        placesMap.persist();
         return placesMap;
     }
 
@@ -42,18 +43,29 @@ public class PlacesHandler {
 
     private PlacesEntity checkingWithUpdate(PlacesEntity entity, LocationEntity locationEntity) {
         var placesList = getPlacesEntityById(entity.placesId);
-        placesList.locationEntityId = locationEntity;
+        placesList.locationId = locationEntity;
         entity.updatePlacesEntity(placesList);
         return placesList;
     }
 
     public PlacesEntity updatePlacesEntity(PlacesEntity entity) {
-        var location = fetchLocationEntity(entity.locationEntityId.locationId);
+        var location = fetchLocationEntity(entity.locationId.locationId);
         return checkingWithUpdate(entity, location);
     }
 
-    public Response deletePlacesEntityById(Long id) {
-        if (getPlacesEntityById(id) != null) {
+    public Response deletePlacesEntityWithLocationById(Long id) {
+        PlacesEntity placesEntity = getPlacesEntityById(id);
+        if (placesEntity != null) {
+            var locationEntity = placesEntity.locationId;
+            placesEntity.delete();
+            locationEntity.delete();
+            return MessageResponse.deleteSucces(id);
+        }
+        return MessageResponse.idNotFound(id);
+    }
+
+    public Response deletePlacesEntityById(Long id){
+        if(getPlacesEntityById(id) != null){
             PlacesEntity.deleteById(id);
             return MessageResponse.deleteSucces(id);
         }

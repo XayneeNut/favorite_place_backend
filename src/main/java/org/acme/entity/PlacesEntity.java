@@ -32,7 +32,7 @@ public class PlacesEntity extends PanacheEntityBase {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
-    public LocationEntity locationEntityId;
+    public LocationEntity locationId;
 
     public static Optional<PlacesEntity> findPlacesEntityById(Long id) {
         return find("id = ? 1", id).firstResultOptional();

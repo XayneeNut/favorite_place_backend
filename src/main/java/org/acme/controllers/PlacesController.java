@@ -54,6 +54,13 @@ public class PlacesController {
     }
 
     @DELETE
+    @Path("/delete-with-location/{id}")
+    @Transactional
+    public Response deletePlacesEntityWithLocationById(Long id){
+        return placesHandler.deletePlacesEntityWithLocationById(id);
+    }
+
+    @DELETE
     @Path("/delete/{id}")
     @Transactional
     public Response deletePlacesEntityById(Long id){
